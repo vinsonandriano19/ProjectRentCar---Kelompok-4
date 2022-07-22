@@ -2,17 +2,17 @@ public abstract class Transportasi{
 
     String PlatTransportasi;
     int JumlahPenumpang;
-    String StatusMobil;
+    String StatusTransportasi;
     int HargaSewa;
 
 
     public Transportasi() {
     }
 
-    public Transportasi(String PlatTransportasi, int JumlahPenumpang, String StatusMobil, int HargaSewa) {
+    public Transportasi(String PlatTransportasi, int JumlahPenumpang, String StatusTransportasi, int HargaSewa) {
         this.PlatTransportasi = PlatTransportasi;
         this.JumlahPenumpang = JumlahPenumpang;
-        this.StatusMobil = StatusMobil;
+        this.StatusTransportasi = StatusTransportasi;
         this.HargaSewa = HargaSewa;
     }
 
@@ -32,12 +32,12 @@ public abstract class Transportasi{
         this.JumlahPenumpang = JumlahPenumpang;
     }
 
-    public String getStatusMobil() {
-        return this.StatusMobil;
+    public String getStatusTransportasi() {
+        return this.StatusTransportasi;
     }
 
-    public void setStatusMobil(String StatusMobil) {
-        this.StatusMobil = StatusMobil;
+    public void setStatusTransportasi(String StatusTransportasi) {
+        this.StatusTransportasi = StatusTransportasi;
     }
 
     public int getHargaSewa() {

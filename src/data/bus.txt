@@ -1,0 +1,10 @@
+B01,Symphonie,BK 7052 SE,40,Tersedia,1000000
+B02,BlueStar,BK 8102 YT,50,Tersedia,950000
+B03,MarissaHoliday,BK 5467 UR,50,Tersedia,980000
+B04,ScorpionHoliday,BK 6572 HA,50,Tersedia,1000000
+B05,Suryaputra,BK 7453 JJ,Tersedia,1100000
+B06,CityTransUtama,BK 4586 KN,Tersedia,1050000
+B07,AnakBangsaTransindo,BK 5792 TB,Tersedia,1000000
+B08,BintangWisata,BK 8468 BD,Tersedia,1200000
+B09,Deborah,BK 5149 TV,Tersedia,1150000
+B010,NuansaWisata,BK 4964 VU,Tersedia,9000000

@@ -6,84 +6,72 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Mobil extends Transportasi{
+public class Bus extends Transportasi{
 
-    private String kodeMobil;
-    private String namaMobil;
-    private String jenisTransmisi;
+    private String kodeBus;
+    private String namaBus;
     static Scanner input = new Scanner(System.in);
     
-    public Mobil() {
+    public Bus() {
     }
 
-    public Mobil(String kodeMobil, String namaMobil, String jenisTransmisi) {
-        this.kodeMobil = kodeMobil;
-        this.namaMobil = namaMobil;
-        this.jenisTransmisi = jenisTransmisi;
+    public Bus(String kodeBus, String namaBus) {
+        this.kodeBus = kodeBus;
+        this.namaBus = namaBus;
     }
 
-    public Mobil(String kodeMobil, String namaMobil, String jenisTransmisi, String PlatTransportasi, int JumlahPenumpang, String StatusMobil, int HargaSewa) {
-        this.kodeMobil = kodeMobil;
-        this.namaMobil = namaMobil;
-        this.jenisTransmisi = jenisTransmisi;
+    public Bus(String kodeBus, String namaBus, String PlatTransportasi, int JumlahPenumpang, String StatusBus, int HargaSewa) {
+        this.kodeBus = kodeBus;
+        this.namaBus = namaBus;
         this.PlatTransportasi = PlatTransportasi;
         this.JumlahPenumpang = JumlahPenumpang;
-        this.StatusTransportasi = StatusMobil;
+        this.StatusTransportasi = StatusBus;
         this.HargaSewa = HargaSewa;
     }
 
-    public String getNamaMobil() {
-        return this.namaMobil;
+    public String getNamaBus() {
+        return this.namaBus;
     }
 
-    public String getKodeMobil() {
-        return this.kodeMobil;
+    public String getKodeBus() {
+        return this.kodeBus;
     }
 
-    public void setKodeMobil(String kodeMobil) {
-        this.kodeMobil = kodeMobil;
+    public void setKodeBus(String kodeBus) {
+        this.kodeBus = kodeBus;
     }
 
-    public void setNamaMobil(String namaMobil) {
-        this.namaMobil = namaMobil;
+    public void setNamaBus(String namaBus) {
+        this.namaBus = namaBus;
     }
 
-    public String getJenisTransmisi() {
-        return this.jenisTransmisi;
-    }
-
-    public void setJenisTransmisi(String jenisTransmisi) {
-        this.jenisTransmisi = jenisTransmisi;
-    }
-
-    public static ArrayList<Mobil> updateMobil (ArrayList<Mobil> mobil) throws FileNotFoundException, IOException {
+    public static ArrayList<Bus> updateBus (ArrayList<Bus> bus) throws FileNotFoundException, IOException {
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
             String s = "";
             while ((s = read.readLine()) != null) {
                 String data[] = s.split(",");
-                mobil.add(new Mobil(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5], Integer.parseInt(data[6])));
+                bus.add(new Bus(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5])));
             }
         }
-        return mobil;
+        return bus;
     }
 
-    public static void updateMobil (String kodeMobil, String status) throws IOException{
-        String FilePath = "D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt";
-        File oldFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt");
+    public static void updateBus (String kodeBus, String status) throws IOException{
+        String FilePath = "D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt";
+        File oldFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt");
         File newFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\temp.txt");
         
-        try (BufferedReader br = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt"))) {
             FileWriter fw = new FileWriter(newFile, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             String s = "";
             while ((s = br.readLine()) != null) {
                 String data[] = s.split(",");
-                if (data[0].equalsIgnoreCase(kodeMobil)) {
+                if (data[0].equalsIgnoreCase(kodeBus)) {
                     String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," ;
                     row = row + status + "," + data[6];
                     pw.println(row);
@@ -101,10 +89,10 @@ public class Mobil extends Transportasi{
         }
     }
 
-    public static int cekMobil (){
+    public static int cekBus (){
         int total = 0;
         int data[] = new int[4];
-        System.out.println("Cek Mobil");
+        System.out.println("Cek Bus");
         System.out.println("---------");
         System.out.println("0 jika terpenuhi, 1 jika tidak");
         System.out.print("Minyak di atas 50% : ");
@@ -122,10 +110,10 @@ public class Mobil extends Transportasi{
         return total;
     }
 
-    public static void displayAturanMobil (String equals) throws FileNotFoundException, IOException{
-        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
+    public static void displayAturanBus (String equals) throws FileNotFoundException, IOException{
+        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt"))) {
             String s = "";
-            System.out.println("|Kode\t|Jenis\t|Transmisi\t|Penumpang\t|Harga\t|");
+            System.out.println("|Kode\t|Jenis\t|Penumpang\t|Harga\t|");
             while ((s = read.readLine()) != null) {
                 // System.out.println(s);
                 String data[] = s.split(",");
@@ -146,45 +134,32 @@ public class Mobil extends Transportasi{
         }
     }
 
-    public static void DaftarMobil (ArrayList<Mobil> mobils) throws Exception {
-        System.out.println("Daftar Mobil Baru");
+    public static void DaftarBus (ArrayList<Bus> buss) throws Exception {
+        System.out.println("Daftar Bus Baru");
                 System.out.println("-----------------");
-                System.out.print("Nama mobil : ");
-                String namaMobil = input.next();
+                System.out.print("Nama Bus : ");
+                String namaBus = input.next();
                 System.out.print("Masukkan jumlah penumpang : ");
                 int penumpang = input.nextInt();
                 System.out.print("Masukkan harga sewa : ");
                 int harga = input.nextInt();
-                System.out.println("Jenis Transmisi");
-                System.out.println("1. Matic");
-                System.out.println("2. Manual");
-                System.out.print("Masukkan 1/2 : ");
-                int pilihanTransmisi = input.nextInt();
-                String Transmisi = "";
-                if (pilihanTransmisi == 1) {
-                    Transmisi = "Matic";
-                } else if (pilihanTransmisi == 2) {
-                    Transmisi = "Manual";
-                } else {
-                    throw new Exception("Harus masukkan nilai \"1\" atau \"2\"");
-                }
                 System.out.print("Masukkan plat transportasi : ");
                 String plat1 = input.next();
                 String plat2 = input.next();
                 String plat3 = input.next();
                 String plat = plat1 + " " + plat2 + " " + plat3;
 
-                String kodeMobil = "M0" + Integer.toString(mobils.size()+1);
+                String kodeBus = "M0" + Integer.toString(buss.size()+1);
 
                 //masukkan data pelanggan ke ArrayList
-                mobils.add(new Mobil(kodeMobil, namaMobil, Transmisi, plat, penumpang, "Tersedia", harga));
+                buss.add(new Bus(kodeBus, namaBus, plat, penumpang, "Tersedia", harga));
                 //masukkan data pelanggan ke file
                 try (FileWriter pwMobil = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt", true)) {
-                    pwMobil.append("\n" + kodeMobil + "," + namaMobil + "," + Transmisi + "," + plat + "," + penumpang + "," + "Tersedia" + "," + harga);
+                    pwMobil.append("\n" + kodeBus + "," + namaBus + "," + plat + "," + penumpang + "," + "Tersedia" + "," + harga);
                 }
     }
 
-    public static void SewaMobil (ArrayList<Pelanggan>pelanggans, ArrayList<Mobil>mobils, ArrayList<TransaksiPeminjaman>pinjams) throws Exception {
+    public static void SewaMobil (ArrayList<Pelanggan>pelanggans, ArrayList<Bus>buss, ArrayList<TransaksiPeminjaman>pinjams) throws Exception {
         
         System.out.println("Masukkan tanggal peminjaman");
         System.out.print("Tanggal (1-31) : ");
@@ -214,16 +189,16 @@ public class Mobil extends Transportasi{
         kodeInput = kodeInput.toUpperCase();
         // util.clearScreen();
         //cetak detail mobil yang kodenya sama dengan inputan
-        for (Mobil mobil : mobils) {
-            if (mobil.getKodeMobil().equalsIgnoreCase(kodeInput) && mobil.getStatusTransportasi().equalsIgnoreCase("Tersedia")) {
-                System.out.println("Kode Mobil : " + mobil.getKodeMobil());
-                System.out.println("Nama Mobil : " + mobil.getNamaMobil());
-                System.out.println("Plat Mobil : " + mobil.getPlatTransportasi());
-                System.out.println("Harga Sewa per Hari : Rp" + mobil.getHargaSewa());
-                int deposit = mobil.getHargaSewa()/10;
+        for (Bus bus : buss) {
+            if (bus.getKodeBus().equalsIgnoreCase(kodeInput) && bus.getStatusTransportasi().equalsIgnoreCase("Tersedia")) {
+                System.out.println("Kode Mobil : " + bus.getKodeBus());
+                System.out.println("Nama Mobil : " + bus.getNamaBus());
+                System.out.println("Plat Mobil : " + bus.getPlatTransportasi());
+                System.out.println("Harga Sewa per Hari : Rp" + bus.getHargaSewa());
+                int deposit = bus.getHargaSewa()/10;
                 System.out.println("Harga Deposito : Rp" + deposit);
                 System.out.println("-----------------------------------");
-                int hargaTotal =  mobil.getHargaSewa()*durasi + deposit;
+                int hargaTotal =  bus.getHargaSewa()*durasi + deposit;
                 System.out.println("Harga total : Rp" + hargaTotal);
                 System.out.print("Apakah anda yakin?(y/n) : ");
                 String pilyakin = input.next();
@@ -272,7 +247,7 @@ public class Mobil extends Transportasi{
         }
     }
 
-    public static void kembaliMobil (ArrayList<TransaksiPeminjaman>pinjams, ArrayList<TransaksiPengembalian>kembalis) throws FileNotFoundException, IOException, ParseException{
+    public static void kembaliBus (ArrayList<TransaksiPeminjaman>pinjams, ArrayList<TransaksiPengembalian>kembalis) throws FileNotFoundException, IOException, ParseException{
         TransaksiPeminjaman.displayAturanPinjam ("Meminjam", "m");
         //masukkan nomor peminjaman yang mau dikembalikan
         System.out.print("Masukkan kode transaksi : ");
@@ -282,8 +257,8 @@ public class Mobil extends Transportasi{
         for (TransaksiPeminjaman pinjam : pinjams) {
             if (pinjam.getNomorTransaksi().equalsIgnoreCase(kodeInput) && pinjam.getStatusPinjam().equalsIgnoreCase("Meminjam")) {
                 System.out.println("Nomor Transaksi : " + pinjam.getNomorTransaksi());
-                System.out.println("Nama Mobil : " + pinjam.getMobilPinjam().getNamaMobil());
-                System.out.println("Plat Mobil : " + pinjam.getMobilPinjam().getPlatTransportasi());
+                System.out.println("Nama Bus : " + pinjam.getMobilPinjam().getNamaMobil());
+                System.out.println("Plat Bus : " + pinjam.getMobilPinjam().getPlatTransportasi());
                 System.out.println("Peminjam : " + pinjam.getPelangganPinjam().getNamaPelanggan());
                 System.out.println("-----------------------");
                 System.out.println("Tanggal Pengembalian");
@@ -303,25 +278,25 @@ public class Mobil extends Transportasi{
                 int dendaHari = 0;
                 int bedaHari;
                 if (tanggalKembali.equalsIgnoreCase(tanggalKembaliSeharusnya)) {
-                    System.out.println("Mobil dikembalikan tepat waktu");
+                    System.out.println("Bus dikembalikan tepat waktu");
                     dendaHari += 0;
                 } else {
                     if ((bedaHari = util.getDifferenceDays(tanggalKembali, tanggalKembaliSeharusnya)) > 0) {
-                        System.out.printf("Mobil dikembalikan %d hari terlambat\n", bedaHari);
+                        System.out.printf("Bus dikembalikan %d hari terlambat\n", bedaHari);
                         dendaHari = bedaHari * 50000;
                     } else {
-                        System.out.println("Mobil dikembalikan lebih awal");
+                        System.out.println("Bus dikembalikan lebih awal");
                         dendaHari += 0;
                     }
                 }
                 //cek mobil from class mobil
-                int dendaCek = Mobil.cekMobil() * 50000;
+                int dendaCek = Bus.cekBus() * 50000;
                 //hitung denda total
                 int totalDenda = dendaHari + dendaCek - pinjam.getDeposit();
 
                 TransaksiPeminjaman peminjaman = TransaksiPeminjaman.cariTransaksiPinjam(kodeInput, pinjams);
                 Pelanggan.updatePelanggan(peminjaman.getPelangganPinjam().getKodePelanggan(), "lunas");
-                Mobil.updateMobil(peminjaman.getMobilPinjam().getKodeMobil(), "Tersedia");
+                Bus.updateBus(peminjaman.getBusPinjam().getKodeBus(), "Tersedia");
                 TransaksiPeminjaman.updatePinjam(kodeInput, "Berhasil");
 
                 //masukkan data kembali ke ArrayList

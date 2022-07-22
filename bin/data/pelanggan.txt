@@ -12,3 +12,8 @@ P011,Venny,081270986778,27,venny@gmail.com,meminjam
 P012,Roger,083280936743,28,roger@gmail.com,meminjam
 P013,Garry,082190907878,28,garry@gmail.com,meminjam
 P014,Kelvin,082100092020,56,kelvin@gmail.com,lunas
+P015,Jodie,9999999999,50,jodie@gmail.com,meminjam
+P016,Jian,111111111111,19,jian@gmail.com,meminjam
+P017,Jian,91919191991,20,jian@gmail.com,meminjam
+P018,Jodie,474664564464,30,jodie@gmail.com,meminjam
+P019,Jevin,69696969679,90,jevin@gmail.com,meminjam

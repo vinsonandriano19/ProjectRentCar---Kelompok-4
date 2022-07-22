@@ -18,6 +18,7 @@ public class TransaksiPeminjaman extends Transaksi{
     private String lokasiPinjam;
     private String tanggalPinjam;
     private Mobil mobilPinjam;
+    private Bus busPinjam;
     private Pelanggan pelangganPinjam;
     private String statusPinjam;
 
@@ -201,15 +202,15 @@ public class TransaksiPeminjaman extends Transaksi{
         return pinjams.get(i);
     }
 
-    public static void displayAturanPinjam (String equals) throws FileNotFoundException, IOException{
+    public static void displayAturanPinjam (String equals1, String kode) throws FileNotFoundException, IOException{
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\peminjaman.txt"))) {
             String s = "";
             System.out.println("|Kode Transaksi\t|Kode Mobil\t|Kode Penumpang\t|Tanggal Pinjam\t|");
             while ((s = read.readLine()) != null) {
                 // System.out.println(s);
                 String data[] = s.split(",");
-                
-                if (data[8].equalsIgnoreCase(equals)) {
+                String nm = data[1].substring(0,1);
+                if (data[8].equalsIgnoreCase(equals1) && nm.equalsIgnoreCase(kode)) {
                     for (int i = 0; i < 8; i++) {
                         if ((i == 1) || (i == 2)) {
                             System.out.print(data[i] + "\t\t|"); 
@@ -224,5 +225,4 @@ public class TransaksiPeminjaman extends Transaksi{
             }
         }
     }
-
 }
