@@ -93,7 +93,11 @@ public class Pelanggan {
             "}";
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk membalikkan textfile ke arraylist
     public static ArrayList<Pelanggan> updatePelanggan (ArrayList<Pelanggan> pelanggans) throws FileNotFoundException, IOException {
+        
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pelanggan.txt"))) {
             String s = "";
             while ((s = read.readLine()) != null) {
@@ -104,7 +108,12 @@ public class Pelanggan {
         return pelanggans;
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk memperbaharui textfile dan arraylist jika ada 1 data yang perlu diganti
+    //                       Overloading dengan method diatas karena memiliki nama yang sama dengan parameter berbeda
     public static void updatePelanggan (String kodePelanggan, String status) throws IOException{
+        
         String FilePath = "D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pelanggan.txt";
         File oldFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pelanggan.txt");
         File newFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\temp.txt");

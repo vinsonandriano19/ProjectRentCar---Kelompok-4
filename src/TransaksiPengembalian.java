@@ -5,17 +5,18 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+// Merupakan inheritance dari Transaksi
 public class TransaksiPengembalian extends Transaksi{
 
+    // atribut
     String nomorTransaksi;
     private int denda;
     private String lokasiKembali;
     private String tanggalKembali;
 
+    // constructor
     public TransaksiPengembalian() {
     }
-    
-
 
     public TransaksiPengembalian(String nomorTransaksi, String lokasiKembali, String tanggalKembali, int denda) {
         this.nomorTransaksi = nomorTransaksi;
@@ -24,13 +25,7 @@ public class TransaksiPengembalian extends Transaksi{
         this.tanggalKembali = tanggalKembali;
     }
 
-
-    public TransaksiPengembalian(String lokasiKembali, String tanggalKembali, int denda) {
-        this.denda = denda;
-        this.lokasiKembali = lokasiKembali;
-        this.tanggalKembali = tanggalKembali;
-    }
-
+    // getter setter
     public int getDenda() {
         return this.denda;
     }
@@ -55,7 +50,6 @@ public class TransaksiPengembalian extends Transaksi{
         this.tanggalKembali = tanggalKembali;
     }
 
-
     public String getNomorTransaksi() {
         return this.nomorTransaksi;
     }
@@ -63,7 +57,6 @@ public class TransaksiPengembalian extends Transaksi{
     public void setNomorTransaksi(String nomorTransaksi) {
         this.nomorTransaksi = nomorTransaksi;
     }
-
 
     @Override
     public String toString() {
@@ -74,8 +67,11 @@ public class TransaksiPengembalian extends Transaksi{
             "}";
     }
 
-
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk membalikkan textfile ke arraylist
     public static ArrayList<TransaksiPengembalian> updateKembali (ArrayList<TransaksiPengembalian> kembalis) throws FileNotFoundException, IOException, ParseException {
+        
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pengembalian.txt"))) {
             String s = "";
             while ((s = read.readLine()) != null) {
@@ -86,14 +82,23 @@ public class TransaksiPengembalian extends Transaksi{
         return kembalis;
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mencetak resi transaksi pengembalian dari kode transaksi
     public static void cetakRecieptKembali (String kodeTransaksi, ArrayList<TransaksiPengembalian> kembalis,  ArrayList<TransaksiPeminjaman> pinjams) {
+        
         for (TransaksiPengembalian kembali : kembalis) {
             if (kembali.getNomorTransaksi().equalsIgnoreCase(kodeTransaksi)) {
                 TransaksiPeminjaman peminjaman = TransaksiPeminjaman.cariTransaksiPinjam(kodeTransaksi, pinjams);
-                System.out.println("Kelompok 4 Car Rental");
+                System.out.println("Kelompok 4 Rental");
                 System.out.println("---------------------");
                 System.out.println("Transaksi " + kodeTransaksi);
-                System.out.println("Sewa mobil " + peminjaman.getMobilPinjam().getNamaMobil() + " " + peminjaman.getMobilPinjam().getPlatTransportasi());
+
+                if (peminjaman.getMobilPinjam() != null) {
+                    System.out.println("Sewa mobil " + peminjaman.getMobilPinjam().getNamaTransport() + " " + peminjaman.getMobilPinjam().getPlatTransportasi());
+                } else if (peminjaman.getBusPinjam() != null) {
+                    System.out.println("Sewa bus " + peminjaman.getBusPinjam().getNamaTransport() + " " + peminjaman.getBusPinjam().getPlatTransportasi());
+                }
                 System.out.println("---------------------");
                 // jika denda>deposit , bayar denda; jika deposit<denda, kasih balek deposit sisa
                 if (kembali.getDenda() > 0) {

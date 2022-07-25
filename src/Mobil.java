@@ -10,46 +10,35 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Mobil extends Transportasi{
 
-    private String kodeMobil;
-    private String namaMobil;
+// Merupakan inheritance dari Mobil
+public class Mobil extends Transportasi{
+    // atribut
     private String jenisTransmisi;
+
     static Scanner input = new Scanner(System.in);
-    
+
+    // constructors
     public Mobil() {
     }
 
-    public Mobil(String kodeMobil, String namaMobil, String jenisTransmisi) {
-        this.kodeMobil = kodeMobil;
-        this.namaMobil = namaMobil;
-        this.jenisTransmisi = jenisTransmisi;
-    }
-
     public Mobil(String kodeMobil, String namaMobil, String jenisTransmisi, String PlatTransportasi, int JumlahPenumpang, String StatusMobil, int HargaSewa) {
-        this.kodeMobil = kodeMobil;
-        this.namaMobil = namaMobil;
+        this.kodeTransport = kodeMobil;
+        this.namaTransport = namaMobil;
         this.jenisTransmisi = jenisTransmisi;
         this.PlatTransportasi = PlatTransportasi;
         this.JumlahPenumpang = JumlahPenumpang;
-        this.StatusTransportasi = StatusMobil;
+        this.StatusTransport = StatusMobil;
         this.HargaSewa = HargaSewa;
     }
 
-    public String getNamaMobil() {
-        return this.namaMobil;
+    // getter setter
+    public int getJumlahPenumpang() {
+        return this.JumlahPenumpang;
     }
 
-    public String getKodeMobil() {
-        return this.kodeMobil;
-    }
-
-    public void setKodeMobil(String kodeMobil) {
-        this.kodeMobil = kodeMobil;
-    }
-
-    public void setNamaMobil(String namaMobil) {
-        this.namaMobil = namaMobil;
+    public void setJumlahPenumpang(int JumlahPenumpang) {
+        this.JumlahPenumpang = JumlahPenumpang;
     }
 
     public String getJenisTransmisi() {
@@ -60,7 +49,11 @@ public class Mobil extends Transportasi{
         this.jenisTransmisi = jenisTransmisi;
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk membalikkan textfile ke arraylist
     public static ArrayList<Mobil> updateMobil (ArrayList<Mobil> mobil) throws FileNotFoundException, IOException {
+
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
             String s = "";
             while ((s = read.readLine()) != null) {
@@ -69,9 +62,15 @@ public class Mobil extends Transportasi{
             }
         }
         return mobil;
+
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk memperbaharui textfile dan arraylist jika ada 1 data yang perlu diganti
+    //                       Overloading dengan method diatas karena memiliki nama yang sama dengan parameter berbeda
     public static void updateMobil (String kodeMobil, String status) throws IOException{
+        
         String FilePath = "D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt";
         File oldFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt");
         File newFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\temp.txt");
@@ -81,16 +80,29 @@ public class Mobil extends Transportasi{
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             String s = "";
+            int i = 0;
             while ((s = br.readLine()) != null) {
                 String data[] = s.split(",");
-                if (data[0].equalsIgnoreCase(kodeMobil)) {
-                    String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," ;
-                    row = row + status + "," + data[6];
-                    pw.println(row);
+                if (i == 0) {
+                    if (data[0].equalsIgnoreCase(kodeMobil)) {
+                        String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," ;
+                        row = row + status + "," + data[6];
+                        pw.print(row);
+                    } else {
+                        String row =  data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," + data[5] + "," + data[6];
+                        pw.print(row);
+                    }
                 } else {
-                    String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," + data[5] + "," + data[6];
-                    pw.println(row);
+                    if (data[0].equalsIgnoreCase(kodeMobil)) {
+                        String row = "\n" + data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," ;
+                        row = row + status + "," + data[6];
+                        pw.print(row);
+                    } else {
+                        String row =  "\n" + data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," + data[5] + "," + data[6];
+                        pw.print(row);
+                    }
                 }
+                i++;
             }
             br.close();
             pw.flush();
@@ -101,28 +113,11 @@ public class Mobil extends Transportasi{
         }
     }
 
-    public static int cekMobil (){
-        int total = 0;
-        int data[] = new int[4];
-        System.out.println("Cek Mobil");
-        System.out.println("---------");
-        System.out.println("0 jika terpenuhi, 1 jika tidak");
-        System.out.print("Minyak di atas 50% : ");
-        data[0] = input.nextInt();
-        System.out.print("Mesin jalan lancar : ");
-        data[1] = input.nextInt()*3;
-        System.out.print("Bodi tidak tergores : ");
-        data[2] = input.nextInt()*3;
-        System.out.print("Interior bersih : ");
-        data[3] = input.nextInt();
-
-        for (int i : data) {
-            total += i;
-        }
-        return total;
-    }
-
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menampilan data-data mobil tetapi dengan kondisi tertentu
     public static void displayAturanMobil (String equals) throws FileNotFoundException, IOException{
+
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
             String s = "";
             System.out.println("|Kode\t|Jenis\t|Transmisi\t|Penumpang\t|Harga\t|");
@@ -146,7 +141,11 @@ public class Mobil extends Transportasi{
         }
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mendaftarkan mobil baru yang akan dimasukkan ke arraylist dan textfile
     public static void DaftarMobil (ArrayList<Mobil> mobils) throws Exception {
+
         System.out.println("Daftar Mobil Baru");
                 System.out.println("-----------------");
                 System.out.print("Nama mobil : ");
@@ -184,26 +183,15 @@ public class Mobil extends Transportasi{
                 }
     }
 
-    public static void SewaMobil (ArrayList<Pelanggan>pelanggans, ArrayList<Mobil>mobils, ArrayList<TransaksiPeminjaman>pinjams) throws Exception {
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menyewa mobil yang kemudian status mobilnya akan diupdate
+    //                       serta menambah transaksi peminjaman dan pelanggan
+    public static void SewaMobil (ArrayList<Mobil> mobils, ArrayList<TransaksiPeminjaman> pinjams, ArrayList<Pelanggan> pelanggans) throws Exception {
         
-        System.out.println("Masukkan tanggal peminjaman");
-        System.out.print("Tanggal (1-31) : ");
-        int day = input.nextInt();
-        System.out.print("Bulan (1-12): ");
-        int month = input.nextInt();
-        System.out.print("Tahun : ");
-        int year = input.nextInt();
-            //gabung jadi 1 string
-        String tanggalPinjam = Integer.toString(day) + "/" + Integer.toString(month) + "/" +Integer.toString(year);
-        tanggalPinjam = util.changeToDate(tanggalPinjam);
-
-        //input durasi pinjam
-        System.out.print("Masukkan durasi peminjaman anda : ");
-        int durasi = input.nextInt();
-
-        //input lokasi pinjam
-        System.out.print("Masukkan lokasi peminjaman anda : ");
-        String lokasiPinjam = input.next();
+        String tanggalPinjam = util.inputTanggal("peminjaman");
+        int durasi = util.inputDurasi("peminjaman");
+        String lokasiPinjam = util.inputLokasi("peminjaman");
         util.clearScreen();
 
         //print all cars dgn status tersedia
@@ -215,9 +203,9 @@ public class Mobil extends Transportasi{
         // util.clearScreen();
         //cetak detail mobil yang kodenya sama dengan inputan
         for (Mobil mobil : mobils) {
-            if (mobil.getKodeMobil().equalsIgnoreCase(kodeInput) && mobil.getStatusTransportasi().equalsIgnoreCase("Tersedia")) {
-                System.out.println("Kode Mobil : " + mobil.getKodeMobil());
-                System.out.println("Nama Mobil : " + mobil.getNamaMobil());
+            if (mobil.getKodeTransport().equalsIgnoreCase(kodeInput) && mobil.getStatusTransport().equalsIgnoreCase("Tersedia")) {
+                System.out.println("Kode Mobil : " + mobil.getKodeTransport());
+                System.out.println("Nama Mobil : " + mobil.getNamaTransport());
                 System.out.println("Plat Mobil : " + mobil.getPlatTransportasi());
                 System.out.println("Harga Sewa per Hari : Rp" + mobil.getHargaSewa());
                 int deposit = mobil.getHargaSewa()/10;
@@ -251,14 +239,14 @@ public class Mobil extends Transportasi{
                     //masukkan data pelanggan ke ArrayList
                     pelanggans.add(new Pelanggan(kodePelanggan, namaPelanggan, noTelp, umurPelanggan, emailPelanggan, "meminjam"));
                     //masukkan data pelanggan ke file
-                    try (FileWriter pwPelanggan = new FileWriter("data/pelanggan.txt", true)) {
+                    try (FileWriter pwPelanggan = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pelanggan.txt", true)) {
                         pwPelanggan.append("\n" + kodePelanggan + "," + namaPelanggan + "," + noTelp + "," + umurPelanggan + "," + emailPelanggan + "," + "meminjam");
                     }
 
                     //masukkan data pinjam ke ArrayList
                     pinjams.add(new TransaksiPeminjaman(kodePinjam, kodeInput, kodePelanggan, lokasiPinjam, tanggalPinjam, deposit, hargaTotal, durasi, "Meminjam"));
                     //masukkan data pinjam ke file
-                    try (FileWriter pwPinjam = new FileWriter("data/peminjaman.txt", true)) {
+                    try (FileWriter pwPinjam = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\peminjaman.txt", true)) {
                         pwPinjam.append( "\n" +kodePinjam + "," + kodeInput + "," + kodePelanggan + "," + lokasiPinjam + "," + tanggalPinjam + "," + deposit + "," + hargaTotal + "," + durasi + ",Meminjam");
                     }
                     Mobil.updateMobil(kodeInput, "Dipinjam");
@@ -272,7 +260,12 @@ public class Mobil extends Transportasi{
         }
     }
 
-    public static void kembaliMobil (ArrayList<TransaksiPeminjaman>pinjams, ArrayList<TransaksiPengembalian>kembalis) throws FileNotFoundException, IOException, ParseException{
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mengembalikkan mobil yang disewa yang kemudian status mobilnya diupdate
+    //                       serta transaksi peminjaman, transaksi pengembalian, dan pelanggan juga akan diupdate
+    public static void kembaliMobil (ArrayList<Mobil> mobils, ArrayList<TransaksiPeminjaman> pinjams, ArrayList<Pelanggan> pelanggans, ArrayList<TransaksiPengembalian> kembalis) throws FileNotFoundException, IOException, ParseException{
+
         TransaksiPeminjaman.displayAturanPinjam ("Meminjam", "m");
         //masukkan nomor peminjaman yang mau dikembalikan
         System.out.print("Masukkan kode transaksi : ");
@@ -282,22 +275,12 @@ public class Mobil extends Transportasi{
         for (TransaksiPeminjaman pinjam : pinjams) {
             if (pinjam.getNomorTransaksi().equalsIgnoreCase(kodeInput) && pinjam.getStatusPinjam().equalsIgnoreCase("Meminjam")) {
                 System.out.println("Nomor Transaksi : " + pinjam.getNomorTransaksi());
-                System.out.println("Nama Mobil : " + pinjam.getMobilPinjam().getNamaMobil());
+                System.out.println("Nama Mobil : " + pinjam.getMobilPinjam().getNamaTransport());
                 System.out.println("Plat Mobil : " + pinjam.getMobilPinjam().getPlatTransportasi());
                 System.out.println("Peminjam : " + pinjam.getPelangganPinjam().getNamaPelanggan());
                 System.out.println("-----------------------");
-                System.out.println("Tanggal Pengembalian");
-                System.out.print("Tanggal (1-31) : ");
-                int day = input.nextInt();
-                System.out.print("Bulan (1-12): ");
-                int month = input.nextInt();
-                System.out.print("Tahun : ");
-                int year = input.nextInt();
-                    //gabung jadi 1 string
-                String tanggalKembali = Integer.toString(day) + "/" + Integer.toString(month) + "/" +Integer.toString(year);
-                System.out.print("Masukkan lokasi pengembalian : ");
-                String lokasiKembali = input.next();
-                tanggalKembali = util.changeToDate(tanggalKembali);
+                String tanggalKembali = util.inputTanggal("pengembalian");
+                String lokasiKembali = util.inputLokasi("pengembalian");
 
                 String tanggalKembaliSeharusnya = util.addToDate(pinjam.getTanggalPinjam(), pinjam.getLamaSewa());
                 int dendaHari = 0;
@@ -315,19 +298,19 @@ public class Mobil extends Transportasi{
                     }
                 }
                 //cek mobil from class mobil
-                int dendaCek = Mobil.cekMobil() * 50000;
+                int dendaCek = Mobil.cekTransport() * 50000;
                 //hitung denda total
                 int totalDenda = dendaHari + dendaCek - pinjam.getDeposit();
 
                 TransaksiPeminjaman peminjaman = TransaksiPeminjaman.cariTransaksiPinjam(kodeInput, pinjams);
                 Pelanggan.updatePelanggan(peminjaman.getPelangganPinjam().getKodePelanggan(), "lunas");
-                Mobil.updateMobil(peminjaman.getMobilPinjam().getKodeMobil(), "Tersedia");
+                Mobil.updateMobil(peminjaman.getMobilPinjam().getKodeTransport(), "Tersedia");
                 TransaksiPeminjaman.updatePinjam(kodeInput, "Berhasil");
 
                 //masukkan data kembali ke ArrayList
                 kembalis.add(new TransaksiPengembalian(kodeInput, lokasiKembali, tanggalKembali, totalDenda));
                 //masukkan data kembali ke file
-                try (FileWriter pwKembali = new FileWriter("data/pengembalian.txt", true)) {
+                try (FileWriter pwKembali = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pengembalian.txt", true)) {
                     pwKembali.append("\n" + kodeInput + "," + lokasiKembali + "," + tanggalKembali + "," + totalDenda);
                 }
                 util.clearScreen();
@@ -336,4 +319,51 @@ public class Mobil extends Transportasi{
             }
         }
     }
+
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menampilkan data-data mobil berdasarkan dari harga yang terendah
+    //                       sampai yang tertinggi menggunakan insertion sort dan merupakan OverRide method dari 
+    //                       class transportasi
+    public static void displayAturanMobilAsc (String equals) throws FileNotFoundException, IOException{
+
+        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
+            String s = "";
+            ArrayList <Mobil> asc = new ArrayList<>();
+            while ((s = read.readLine()) != null) {
+                
+                String data[] = s.split(",");
+                
+                if (data[5].equalsIgnoreCase(equals)) {
+                    asc.add (new Mobil(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5], Integer.parseInt(data[6])));
+                }
+            }
+            for (int i = 1; i < asc.size(); ++i) {
+                Mobil obj = new Mobil();
+                obj = asc.get(i);
+                int j = i-1;
+                while (j>=0 && obj.getHargaSewa() < asc.get(j).getHargaSewa()){
+                    asc.set(j+1, asc.get(j));
+                    j--;
+                }
+                asc.set(j+1, obj);
+                
+            }
+
+            System.out.println("|Kode\t|Jenis\t\t|Transmisi\t|Penumpang\t|Harga\t\t|");
+            for (Mobil mobil : asc) {
+                System.out.println(mobil);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "|" +  getKodeTransport() + "\t|"
+        + getNamaTransport() + "\t\t|" 
+        + getJenisTransmisi() + "\t\t|"
+        + getJumlahPenumpang() + "\t\t|"
+        + getHargaSewa() + "\t\t|";
+    }
+
 }

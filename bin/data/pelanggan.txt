@@ -17,3 +17,5 @@ P016,Jian,111111111111,19,jian@gmail.com,meminjam
 P017,Jian,91919191991,20,jian@gmail.com,meminjam
 P018,Jodie,474664564464,30,jodie@gmail.com,meminjam
 P019,Jevin,69696969679,90,jevin@gmail.com,meminjam
+P020,Jian,34785232480,70,jian@gmail.com,meminjam
+P021,Jodie,63464523,56,Jodie@gmail.com,meminjam

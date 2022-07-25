@@ -6,60 +6,67 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+// Merupakan inheritance dari Mobil
 public class Bus extends Transportasi{
 
-    private String kodeBus;
-    private String namaBus;
+    
     static Scanner input = new Scanner(System.in);
     
+    // constructors
     public Bus() {
     }
 
-    public Bus(String kodeBus, String namaBus) {
-        this.kodeBus = kodeBus;
-        this.namaBus = namaBus;
-    }
-
-    public Bus(String kodeBus, String namaBus, String PlatTransportasi, int JumlahPenumpang, String StatusBus, int HargaSewa) {
-        this.kodeBus = kodeBus;
-        this.namaBus = namaBus;
-        this.PlatTransportasi = PlatTransportasi;
-        this.JumlahPenumpang = JumlahPenumpang;
-        this.StatusTransportasi = StatusBus;
-        this.HargaSewa = HargaSewa;
-    }
-
     public String getNamaBus() {
-        return this.namaBus;
+        return this.namaTransport;
     }
 
     public String getKodeBus() {
-        return this.kodeBus;
+        return this.kodeTransport;
     }
 
     public void setKodeBus(String kodeBus) {
-        this.kodeBus = kodeBus;
+        this.kodeTransport = kodeBus;
     }
 
     public void setNamaBus(String namaBus) {
-        this.namaBus = namaBus;
+        this.namaTransport = namaBus;
     }
 
-    public static ArrayList<Bus> updateBus (ArrayList<Bus> bus) throws FileNotFoundException, IOException {
-        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt"))) {
+    public Bus(String kodeBus, String namaBus,String PlatTransportasi,int JumlahPenumpang,String StatusBus, int HargaSewa) {
+        this.kodeTransport = kodeBus;
+        this.namaTransport = namaBus;
+        this.PlatTransportasi = PlatTransportasi;
+        this.JumlahPenumpang = JumlahPenumpang;
+        this.StatusTransport = StatusBus;
+        this.HargaSewa = HargaSewa;
+    }
+
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk membalikkan textfile ke arraylist
+    public static ArrayList<Bus> updateBus (ArrayList<Bus> buss) throws FileNotFoundException, IOException {
+
+        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt"))) {
             String s = "";
             while ((s = read.readLine()) != null) {
                 String data[] = s.split(",");
-                bus.add(new Bus(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5])));
+                buss.add(new Bus(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5])));
             }
         }
-        return bus;
+        return buss;
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk memperbaharui textfile dan arraylist jika ada 1 data yang perlu diganti
+    //                       Overloading dengan method diatas karena memiliki nama yang sama dengan parameter berbeda
     public static void updateBus (String kodeBus, String status) throws IOException{
+
         String FilePath = "D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt";
         File oldFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt");
         File newFile = new File ("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\temp.txt");
@@ -69,16 +76,29 @@ public class Bus extends Transportasi{
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             String s = "";
+            int i = 0;
             while ((s = br.readLine()) != null) {
                 String data[] = s.split(",");
-                if (data[0].equalsIgnoreCase(kodeBus)) {
-                    String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," ;
-                    row = row + status + "," + data[6];
-                    pw.println(row);
+                if (i == 0) {
+                    if (data[0].equalsIgnoreCase(kodeBus)) {
+                        String row = data[0] + "," + data[1] + "," + data[2] + ",";
+                        row = row + status + "," + data[4];
+                        pw.print(row);
+                    } else {
+                        String row =  data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                        pw.print(row);
+                    }
                 } else {
-                    String row = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," + data[5] + "," + data[6];
-                    pw.println(row);
+                    if (data[0].equalsIgnoreCase(kodeBus)) {
+                        String row = "\n" +  data[0] + "," + data[1] + "," + data[2] + ",";
+                        row = row + status + "," + data[4];
+                        pw.print(row);
+                    } else {
+                        String row =  "\n" + data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                        pw.print(row);
+                    }
                 }
+                i++;
             }
             br.close();
             pw.flush();
@@ -89,43 +109,24 @@ public class Bus extends Transportasi{
         }
     }
 
-    public static int cekBus (){
-        int total = 0;
-        int data[] = new int[4];
-        System.out.println("Cek Bus");
-        System.out.println("---------");
-        System.out.println("0 jika terpenuhi, 1 jika tidak");
-        System.out.print("Minyak di atas 50% : ");
-        data[0] = input.nextInt();
-        System.out.print("Mesin jalan lancar : ");
-        data[1] = input.nextInt()*3;
-        System.out.print("Bodi tidak tergores : ");
-        data[2] = input.nextInt()*3;
-        System.out.print("Interior bersih : ");
-        data[3] = input.nextInt();
-
-        for (int i : data) {
-            total += i;
-        }
-        return total;
-    }
-
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menampilan data-data bus tetapi dengan kondisi tertentu
     public static void displayAturanBus (String equals) throws FileNotFoundException, IOException{
+
         try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt"))) {
             String s = "";
-            System.out.println("|Kode\t|Jenis\t|Penumpang\t|Harga\t|");
+            System.out.println("|Kode\t|Jenis\t\t|Penumpang\t|Harga\t|");
             while ((s = read.readLine()) != null) {
                 // System.out.println(s);
                 String data[] = s.split(",");
                 
-                if (data[5].equalsIgnoreCase(equals)) {
-                    for (int i = 0; i < 7; i++) {
-                        if ((i == 1) || (i == 6)) {
+                if (data[4].equalsIgnoreCase(equals)) {
+                    for (int i = 0; i < 6; i++) {
+                        if ((i == 1) || (i == 5) || (i == 3)) {
                             System.out.print(data[i] + "\t|"); 
                         } else if (i == 0){
                             System.out.print("|" +data[i] + "\t|"); 
-                        } else if ((i==4) || (i==2) ){
-                            System.out.print(data[i] + "\t\t|"); 
                         }
                     }
                     System.out.println();
@@ -134,13 +135,15 @@ public class Bus extends Transportasi{
         }
     }
 
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mendaftarkan bus baru yang akan dimasukkan ke arraylist dan textfile
     public static void DaftarBus (ArrayList<Bus> buss) throws Exception {
+
         System.out.println("Daftar Bus Baru");
                 System.out.println("-----------------");
-                System.out.print("Nama Bus : ");
-                String namaBus = input.next();
-                System.out.print("Masukkan jumlah penumpang : ");
-                int penumpang = input.nextInt();
+                System.out.print("Nama bus : ");
+                String namaMobil = input.next();
                 System.out.print("Masukkan harga sewa : ");
                 int harga = input.nextInt();
                 System.out.print("Masukkan plat transportasi : ");
@@ -148,52 +151,42 @@ public class Bus extends Transportasi{
                 String plat2 = input.next();
                 String plat3 = input.next();
                 String plat = plat1 + " " + plat2 + " " + plat3;
-
-                String kodeBus = "M0" + Integer.toString(buss.size()+1);
+                System.out.print("Masukkan jumlah penumpang : ");
+                int JumlahPenumpang = input.nextInt();
+                String kodeMobil = "B0" + Integer.toString(buss.size()+1);
 
                 //masukkan data pelanggan ke ArrayList
-                buss.add(new Bus(kodeBus, namaBus, plat, penumpang, "Tersedia", harga));
+                buss.add(new Bus(kodeMobil, namaMobil, plat, JumlahPenumpang, "Tersedia", harga));
                 //masukkan data pelanggan ke file
-                try (FileWriter pwMobil = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\mobil.txt", true)) {
-                    pwMobil.append("\n" + kodeBus + "," + namaBus + "," + plat + "," + penumpang + "," + "Tersedia" + "," + harga);
+                try (FileWriter pwMobil = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt", true)) {
+                    pwMobil.append("\n" + kodeMobil + "," + namaMobil + ","  + plat + ","  +  "Tersedia" + "," + harga);
                 }
     }
-
-    public static void SewaMobil (ArrayList<Pelanggan>pelanggans, ArrayList<Bus>buss, ArrayList<TransaksiPeminjaman>pinjams) throws Exception {
+    
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menyewa bus yang kemudian status busnya akan diupdate
+    //                       serta menambah transaksi peminjaman dan pelanggan
+    public static void SewaBus (ArrayList<Bus> buss, ArrayList<TransaksiPeminjaman> pinjams, ArrayList<Pelanggan> pelanggans) throws Exception {
         
-        System.out.println("Masukkan tanggal peminjaman");
-        System.out.print("Tanggal (1-31) : ");
-        int day = input.nextInt();
-        System.out.print("Bulan (1-12): ");
-        int month = input.nextInt();
-        System.out.print("Tahun : ");
-        int year = input.nextInt();
-            //gabung jadi 1 string
-        String tanggalPinjam = Integer.toString(day) + "/" + Integer.toString(month) + "/" +Integer.toString(year);
-        tanggalPinjam = util.changeToDate(tanggalPinjam);
-
-        //input durasi pinjam
-        System.out.print("Masukkan durasi peminjaman anda : ");
-        int durasi = input.nextInt();
-
-        //input lokasi pinjam
-        System.out.print("Masukkan lokasi peminjaman anda : ");
-        String lokasiPinjam = input.next();
+        String tanggalPinjam = util.inputTanggal("peminjaman");
+        int durasi = util.inputDurasi("peminjaman");
+        String lokasiPinjam = util.inputLokasi("peminjaman");
         util.clearScreen();
 
         //print all cars dgn status tersedia
-        Mobil.displayAturanMobil( "Tersedia");
+        Bus.displayAturanBus( "Tersedia");
         //input kode mobil yang disewa
-        System.out.print("Masukkan kode mobil yang ingin disewakan : ");
+        System.out.print("Masukkan kode Bus yang ingin disewakan : ");
         String kodeInput = input.next();
         kodeInput = kodeInput.toUpperCase();
         // util.clearScreen();
         //cetak detail mobil yang kodenya sama dengan inputan
         for (Bus bus : buss) {
-            if (bus.getKodeBus().equalsIgnoreCase(kodeInput) && bus.getStatusTransportasi().equalsIgnoreCase("Tersedia")) {
-                System.out.println("Kode Mobil : " + bus.getKodeBus());
-                System.out.println("Nama Mobil : " + bus.getNamaBus());
-                System.out.println("Plat Mobil : " + bus.getPlatTransportasi());
+            if (bus.getKodeBus().equalsIgnoreCase(kodeInput) && bus.getStatusTransport().equalsIgnoreCase("Tersedia")) {
+                System.out.println("Kode Bus : " + bus.getKodeBus());
+                System.out.println("Nama Bus : " + bus.getNamaBus());
+                System.out.println("Plat Bus : " + bus.getPlatTransportasi());
                 System.out.println("Harga Sewa per Hari : Rp" + bus.getHargaSewa());
                 int deposit = bus.getHargaSewa()/10;
                 System.out.println("Harga Deposito : Rp" + deposit);
@@ -226,14 +219,14 @@ public class Bus extends Transportasi{
                     //masukkan data pelanggan ke ArrayList
                     pelanggans.add(new Pelanggan(kodePelanggan, namaPelanggan, noTelp, umurPelanggan, emailPelanggan, "meminjam"));
                     //masukkan data pelanggan ke file
-                    try (FileWriter pwPelanggan = new FileWriter("data/pelanggan.txt", true)) {
+                    try (FileWriter pwPelanggan = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pelanggan.txt", true)) {
                         pwPelanggan.append("\n" + kodePelanggan + "," + namaPelanggan + "," + noTelp + "," + umurPelanggan + "," + emailPelanggan + "," + "meminjam");
                     }
 
                     //masukkan data pinjam ke ArrayList
                     pinjams.add(new TransaksiPeminjaman(kodePinjam, kodeInput, kodePelanggan, lokasiPinjam, tanggalPinjam, deposit, hargaTotal, durasi, "Meminjam"));
                     //masukkan data pinjam ke file
-                    try (FileWriter pwPinjam = new FileWriter("data/peminjaman.txt", true)) {
+                    try (FileWriter pwPinjam = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\peminjaman.txt", true)) {
                         pwPinjam.append( "\n" +kodePinjam + "," + kodeInput + "," + kodePelanggan + "," + lokasiPinjam + "," + tanggalPinjam + "," + deposit + "," + hargaTotal + "," + durasi + ",Meminjam");
                     }
                     Mobil.updateMobil(kodeInput, "Dipinjam");
@@ -247,8 +240,13 @@ public class Bus extends Transportasi{
         }
     }
 
-    public static void kembaliBus (ArrayList<TransaksiPeminjaman>pinjams, ArrayList<TransaksiPengembalian>kembalis) throws FileNotFoundException, IOException, ParseException{
-        TransaksiPeminjaman.displayAturanPinjam ("Meminjam", "m");
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mengembalikkan bus yang disewa yang kemudian status busnya diupdate
+    //                       serta transaksi peminjaman, transaksi pengembalian, dan pelanggan juga akan diupdate
+    public static void kembaliBus (ArrayList<Bus> buss, ArrayList<TransaksiPeminjaman> pinjams, ArrayList<Pelanggan> pelanggans, ArrayList<TransaksiPengembalian> kembalis) throws FileNotFoundException, IOException, ParseException{
+        
+        TransaksiPeminjaman.displayAturanPinjam ("Meminjam", "b");
         //masukkan nomor peminjaman yang mau dikembalikan
         System.out.print("Masukkan kode transaksi : ");
         String kodeInput = input.next();
@@ -257,22 +255,12 @@ public class Bus extends Transportasi{
         for (TransaksiPeminjaman pinjam : pinjams) {
             if (pinjam.getNomorTransaksi().equalsIgnoreCase(kodeInput) && pinjam.getStatusPinjam().equalsIgnoreCase("Meminjam")) {
                 System.out.println("Nomor Transaksi : " + pinjam.getNomorTransaksi());
-                System.out.println("Nama Bus : " + pinjam.getMobilPinjam().getNamaMobil());
-                System.out.println("Plat Bus : " + pinjam.getMobilPinjam().getPlatTransportasi());
+                System.out.println("Nama Bus : " + pinjam.getBusPinjam().getNamaTransport());
+                System.out.println("Plat Bus : " + pinjam.getBusPinjam().getPlatTransportasi());
                 System.out.println("Peminjam : " + pinjam.getPelangganPinjam().getNamaPelanggan());
                 System.out.println("-----------------------");
-                System.out.println("Tanggal Pengembalian");
-                System.out.print("Tanggal (1-31) : ");
-                int day = input.nextInt();
-                System.out.print("Bulan (1-12): ");
-                int month = input.nextInt();
-                System.out.print("Tahun : ");
-                int year = input.nextInt();
-                    //gabung jadi 1 string
-                String tanggalKembali = Integer.toString(day) + "/" + Integer.toString(month) + "/" +Integer.toString(year);
-                System.out.print("Masukkan lokasi pengembalian : ");
-                String lokasiKembali = input.next();
-                tanggalKembali = util.changeToDate(tanggalKembali);
+                String tanggalKembali = util.inputTanggal("pengembalian");
+                String lokasiKembali = util.inputLokasi("pengembalian");
 
                 String tanggalKembaliSeharusnya = util.addToDate(pinjam.getTanggalPinjam(), pinjam.getLamaSewa());
                 int dendaHari = 0;
@@ -287,22 +275,22 @@ public class Bus extends Transportasi{
                     } else {
                         System.out.println("Bus dikembalikan lebih awal");
                         dendaHari += 0;
-                    }
+                    } 
                 }
                 //cek mobil from class mobil
-                int dendaCek = Bus.cekBus() * 50000;
+                int dendaCek = Bus.cekTransport() * 30000;
                 //hitung denda total
                 int totalDenda = dendaHari + dendaCek - pinjam.getDeposit();
 
                 TransaksiPeminjaman peminjaman = TransaksiPeminjaman.cariTransaksiPinjam(kodeInput, pinjams);
                 Pelanggan.updatePelanggan(peminjaman.getPelangganPinjam().getKodePelanggan(), "lunas");
-                Bus.updateBus(peminjaman.getBusPinjam().getKodeBus(), "Tersedia");
+                Bus.updateBus(peminjaman.getBusPinjam().getKodeTransport(), "Tersedia");
                 TransaksiPeminjaman.updatePinjam(kodeInput, "Berhasil");
 
                 //masukkan data kembali ke ArrayList
                 kembalis.add(new TransaksiPengembalian(kodeInput, lokasiKembali, tanggalKembali, totalDenda));
                 //masukkan data kembali ke file
-                try (FileWriter pwKembali = new FileWriter("data/pengembalian.txt", true)) {
+                try (FileWriter pwKembali = new FileWriter("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\pengembalian.txt", true)) {
                     pwKembali.append("\n" + kodeInput + "," + lokasiKembali + "," + tanggalKembali + "," + totalDenda);
                 }
                 util.clearScreen();
@@ -310,5 +298,72 @@ public class Bus extends Transportasi{
                 break;
             }
         }
+    }
+
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk menampilkan data-data bus berdasarkan dari harga yang terendah
+    //                       sampai yang tertinggi menggunakan insertion sort dan merupakan OverRide method dari 
+    //                       class transportasi
+    public static void displayAturanBusAsc (String equals) throws FileNotFoundException, IOException{
+        
+        try (BufferedReader read = new BufferedReader(new FileReader("D:\\UPH\\Semester Aksel\\Pemrogrman Berorientasi Objek\\Tugas\\ProjectRentCar 2\\ProjectRentCar\\src\\data\\bus.txt"))) {
+            String s = "";
+            ArrayList <Bus> asc = new ArrayList<>();
+            while ((s = read.readLine()) != null) {
+                
+                String data[] = s.split(",");
+                
+                if (data[4].equalsIgnoreCase(equals)) {
+                    asc.add (new Bus(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5])));
+                }
+            }
+            for (int i = 1; i < asc.size(); ++i) {
+                Bus obj = new Bus();
+                obj = asc.get(i);
+                int j = i-1;
+                while (j>=0 && obj.getHargaSewa() < asc.get(j).getHargaSewa()){
+                    asc.set(j+1, asc.get(j));
+                    j--;
+                }
+                asc.set(j+1, obj);
+                
+            }
+
+            System.out.println("|Kode\t|Jenis\t\t|Penumpang\t|Harga\t\t|");
+            for (Bus bus : asc) {
+                System.out.println(bus);
+            }
+        }
+    }
+
+    // Nama                : Vinson Andriano
+    // NIM                 : 03081210023
+    // Deskripsi singkat   : berfungsi untuk mengecek kondisi bus dan merupakan OverRide method dari class transportasi
+    public static int cekTransport (){
+
+        int total = 0;
+        int data[] = new int[4];
+        System.out.println("Cek Transport");
+        System.out.println("---------");
+        System.out.println("0 jika terpenuhi, 1 jika tidak");
+        System.out.print("Minyak di atas 50% : ");
+        data[0] = input.nextInt();
+        System.out.print("Mesin jalan lancar : ");
+        data[1] = input.nextInt()*2;
+        System.out.print("Bodi tidak tergores : ");
+        data[2] = input.nextInt()*2;
+        for (int i : data) {
+            total += i;
+        }
+        return total;
+    }
+
+    @Override
+    public String toString() {
+        return "|" +  getKodeTransport() + "\t|"
+        + getNamaTransport() + "\t|" 
+        + getJumlahPenumpang() + "\t\t|"
+        + getHargaSewa() + "\t|";
     }
 }
